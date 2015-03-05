@@ -818,7 +818,7 @@ final <- ddply(intermediate,.(Type),mutate,Seconds = Time - min(Time))
 
 
 
-design <- readPNG("design.png")
+design <- readPNG("Images/design.png")
 b <- rasterGrob(design, interpolate=TRUE)
 
 fig1_plotA <- qplot(1:10, 1:10, geom="blank") +
@@ -839,7 +839,7 @@ fig1_plotA <- qplot(1:10, 1:10, geom="blank") +
   annotation_custom(b, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
 
 
-plotPicture <- readPNG("example.png")
+plotPicture <- readPNG("Images/example.png")
 g <- rasterGrob(plotPicture, interpolate=TRUE)
 
 fig1_plotB <- qplot(1:10, 1:10, geom="blank") +
