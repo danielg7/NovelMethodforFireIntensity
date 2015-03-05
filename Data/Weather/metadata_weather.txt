@@ -1,1 +1,3 @@
 Weather Readings Metadata
+
+Data were captured using a Kestrel Model 4500 (Nielsen-Kellerman, Boothwyn, PA) placed at 1.5 m above the ground. Data were captured at 30 s intervals.

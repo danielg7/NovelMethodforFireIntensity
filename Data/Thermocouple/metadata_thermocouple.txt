@@ -1,1 +1,4 @@
 Thermocouple Metadata
+
+Data were captured by a K-type thermocouple with wire diameter 0.2546 mm, logging on a HOBO datalogger (Model UX100-014M, Onset Corporation, Cape Cod, MA). Data were logged at 5 s interval.
+

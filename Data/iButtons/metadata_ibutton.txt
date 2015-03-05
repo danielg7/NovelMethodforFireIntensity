@@ -1,1 +1,3 @@
 iButton Metadata
+
+Data were captured using DS1922T model iButtons manufactured by the Maxim Integrated. Data were captured at Kruger National Park on 2015 OCT 01-03 in the Skukuza Experimental Burn Plots. iButtons were placed within metal pipes insulated with sand. Data were logged at 5 s intervals.
