@@ -121,7 +121,7 @@ day1_thermo <- na.omit(read.hobo(HoboFile = "Data/Thermocouple/1-October_calibra
 day3_thermo <- na.omit(read.hobo(HoboFile = "Data/Thermocouple/3-October_calibration.csv"))
 
 
-calibrationData <- read.csv("Data/2014_calibration_data_2.csv",
+calibrationData <- read.csv("Data/2014_calibration_data.csv",
                             na.strings="-9999"
                             )
 
@@ -859,20 +859,6 @@ fig1_plotB <- qplot(1:10, 1:10, geom="blank") +
   ylab("")+
   annotation_custom(g, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
 
-# 
-# 
-# 
-# names(intermediate)[3] <- "Partial_iButton"
-# names(intermediate)[5] <- "Full_iButton"
-# names(intermediate)[22] <- "Thermocouple"
-# 
-# final <- melt(intermediate, id.vars = "Time", measure.vars = c("Partial_iButton","Full_iButton","Thermocouple"))
-# 
-# final$Seconds <- as.numeric(seconds(final$Time - min(final$Time)))
-# 
-# names(final) <- c("Time","Type","Anomaly","Seconds")
-# levels(final$Type) <- c("Partial iButton","Complete iButton","Thermocouple")
-
 fig1_plotC <- ggplot(data = final, aes(x = as.numeric(Seconds), y= log(Temperature), colour = Type))+
   ggtitle("C.")+
   myTheme+
@@ -888,12 +874,7 @@ fig1_plotC <- ggplot(data = final, aes(x = as.numeric(Seconds), y= log(Temperatu
   scale_colour_manual(name  = "",
                       values=c("Partial iButton"="red","Complete iButton"="black","Thermocouple"="blue"))+
   geom_line()
-  #geom_line(colour="black", size = 1,
-  #          aes(x = as.numeric(Seconds), y = log(Temperature)))+
-  #geom_line(data = justOne_thermo, colour="blue", size = 1,
-   #         aes(x = as.numeric(Seconds), y = log(Temperature)))+
-  #geom_line(colour = "red", size = 1,
-   #         aes(x = as.numeric(Seconds), y = log(Temperature_sub)))
+
 
 
 grid.arrange(fig1_plotA,fig1_plotB,fig1_plotC,nrow=2,ncol=2)
