@@ -1,0 +1,55 @@
+---
+title: "Appendix"
+author: "Godwin, D.S. and Holdo, R.M"
+date: "March 6, 2015"
+output: 
+  html_document:
+    toc: true
+    theme: united
+    keep_md: true
+
+
+---
+
+```{r, echo = FALSE, include = FALSE, results='hide'}
+
+knitr::knit('Analysis.Rmd')
+
+```
+# Figures
+
+## Figure 1
+
+```{r, echo = FALSE, fig.height=11,fig.width=8.5, warning=FALSE}
+b <- subset(iButtonMerge_calibration,Trial_Number != "Control")
+a <- thermoMerge
+
+a$Trial_Number <- as.numeric(as.character(a$Trial_Number))
+b$Trial_Number <- as.numeric(as.character(b$Trial_Number))
+
+b <- ddply(b,.(Trial_Number),mutate,Seconds = Time - min(Time))
+a <- ddply(a,.(Trial_Number),mutate,Seconds = Time - min(Time))
+
+a$Seconds <- as.numeric(a$Seconds)
+b$Seconds <- as.numeric(b$Seconds)
+
+a <- na.omit(a)
+b <- na.omit(b)
+
+toPlot <- ggplot(data = a, aes(x = Seconds, y = log(Temperature)))+
+  myTheme+
+  geom_line(color="black", size = 1)+
+  geom_line(data = b,
+            color="red",
+            size = 1,
+            aes(x = Seconds, y = log(Temperature)))+
+  facet_wrap(~Trial_Number, nrow = 7, scales = "free")
+
+toPlot
+
+rm(a)
+rm(b)
+
+````
+
+# Tables
