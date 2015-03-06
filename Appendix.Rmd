@@ -33,8 +33,6 @@ a <- ddply(a,.(Trial_Number),mutate,Seconds = Time - min(Time))
 a$Seconds <- as.numeric(a$Seconds)
 b$Seconds <- as.numeric(b$Seconds)
 
-a <- na.omit(a)
-b <- na.omit(b)
 
 toPlot <- ggplot(data = a, aes(x = Seconds, y = log(Temperature)))+
   myTheme+
