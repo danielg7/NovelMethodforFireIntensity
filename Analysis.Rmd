@@ -71,7 +71,7 @@ Raw iButton Data (Data/iButtons)
 
 Raw Thermocouple Data (Data/Thermocouple)
 * `1-October_calibration.csv`
-* `3-October.csv`
+* `3-October_calibration.csv`
 
 # Load ancillary functions
 
@@ -88,7 +88,7 @@ source(file = "Scripts/temperature_parsing.R")
 
 The functions `read.hobo` and `read.ibutton` are useful tools for reading in iButton data and Hobo-brand thermocouple data.
 
-```{r loadData, echo=TRUE, results='hide', warning=FALSE}
+```{r loadData, echo=TRUE, results='hide', warning=FALSE,cache.lazy=TRUE}
 
 
 day1_212 <- read.ibutton("Data/iButtons/day1_212.csv")
@@ -770,7 +770,8 @@ basicPlot+
 
 ## iButton Residual ~ Weather Analysis
 
-```{r}
+Calculate residuals of lm
+```{r calculateResiduals}
 testResidsDF_i <- reMergeAnalysis
 testResidsDF_tc <- subset(reMergeAnalysis, !is.na(maxTemp_t))
 
@@ -793,8 +794,9 @@ basicPlotTC+
   geom_smooth(method="lm",aes(x = RH_mean, y = thermocouple_resids))
 ```
 
-```{r}
-summary(lm(thermocouple_resids ~ RH_mean, testResidsDF_tc))
+```{r thermoCouple}
+TCresids_by_RHmean <- lm(thermocouple_resids ~ RH_mean, testResidsDF_tc)
+summary(TCresids_by_RHmean)
 ```
 
 ```{r echo=FALSE}
@@ -805,7 +807,8 @@ basicPlotTC+
 ```
 
 ```{r}
-summary(lm(thermocouple_resids ~ WS_mean, testResidsDF_tc))
+TCresids_by_WSmean <- lm(thermocouple_resids ~ WS_mean, testResidsDF_tc)
+summary(TCresids_by_WSmean)
 ```
 
 ```{r echo=FALSE}
@@ -816,7 +819,8 @@ basicPlotTC+
 ```
 
 ```{r}
-summary(lm(thermocouple_resids ~ WS_max, testResidsDF_tc))
+TCresids_by_WSmax <- lm(thermocouple_resids ~ WS_max, testResidsDF_tc)
+summary(TCresids_by_WSmax)
 ```
 
 ```{r echo=FALSE}
@@ -828,52 +832,56 @@ basicPlotTC+
 ```
 
 ```{r}
-summary(lm(thermocouple_resids ~ RH_min, testResidsDF_tc))
+TCresids_by_RHmin <- lm(thermocouple_resids ~ RH_min, testResidsDF_tc)
+summary(TCresids_by_RHmin)
 ```
 
 ## Plot thermocouple residuals
 
 ```{r iButtonplotPrepare, echo=FALSE}
-basicPlotTC <- ggplot(data = testResidsDF_i)+
+basicPlotI <- ggplot(data = testResidsDF_i)+
   myTheme+
   ylab("iButton Residuals")
 ```
   
 ```{r echo=FALSE}
-basicPlotTC+
+basicPlotI+
   xlab("Mean RH")+
   geom_point(aes(x = RH_mean, y = iButton_resids))+
   geom_smooth(method="lm",aes(x = RH_mean, y = iButton_resids))
 ```
 
 ```{r}
-summary(lm(iButton_resids ~ RH_mean, testResidsDF_i))
+IBresids_by_RHmean <- lm(iButton_resids ~ RH_mean, testResidsDF_i)
+summary(IBresids_by_RHmean)
 ```
 
 ```{r echo=FALSE}
-basicPlotTC+
+basicPlotI+
   xlab("Mean WS")+
   geom_point(aes(x = WS_mean, y = iButton_resids))+
   geom_smooth(method="lm",aes(x = WS_mean, y = iButton_resids))
 ```
 
 ```{r}
-summary(lm(thermocouple_resids ~ WS_mean, testResidsDF_tc))
+IBresids_by_WSmean <- lm(iButton_resids ~ WS_mean, testResidsDF_i)
+summary(IBresids_by_WSmean)
 ```
 
 ```{r echo=FALSE}
-basicPlotTC+
+basicPlotI+
   xlab("Max WS")+
   geom_point(aes(x = WS_max, y = iButton_resids))+
   geom_smooth(method="lm",aes(x = WS_max, y = iButton_resids))
 ```
 
 ```{r}
-summary(lm(iButton_resids ~ WS_max, testResidsDF_i))
+IBresids_by_WSmax <- lm(iButton_resids ~ WS_max, testResidsDF_i)
+summary(IBresids_by_WSmax)
 ```
 
 ```{r echo=FALSE}
-basicPlotTC+
+basicPlotI+
   xlab("RH min")+
   geom_point(aes(x = RH_min, y = iButton_resids))+
   geom_smooth(method="lm",aes(x = RH_min, y = iButton_resids))
@@ -881,7 +889,8 @@ basicPlotTC+
 ```
 
 ```{r}
-summary(lm(iButton_resids ~ RH_min, testResidsDF_i))
+IBresids_by_RHmin <- lm(iButton_resids ~ RH_min, testResidsDF_i)
+summary(IBresids_by_RHmin)
 ```
 
 # Figures for Analysis
@@ -922,7 +931,6 @@ fig1_plotA <- qplot(1:10, 1:10, geom="blank") +
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",
-                                  family = "Arial",
                                   face="plain"),
            panel.grid.minor.y=element_blank(),
            panel.grid.major.y=element_blank(),
@@ -943,7 +951,6 @@ fig1_plotB <- qplot(1:10, 1:10, geom="blank") +
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",
-                                  family = "Arial",
                                   face="plain"),
            panel.grid.minor.y=element_blank(),
            panel.grid.major.y=element_blank(),
@@ -960,16 +967,17 @@ fig1_plotC <- ggplot(data = final, aes(x = as.numeric(Seconds), y= log(Temperatu
   myTheme+
      theme(plot.title = element_text(size=10,
                                   hjust="0",
-                                  family = "Arial",
                                   face="plain"),
-           #legend.position=c(.8,.9),
+          #legend.position=c(.8,.9),
            legend.position="none",
            legend.direction="vertical",
-           legend.text = element_text(size = 8))+
+           legend.text = element_text(size = 4))+
   xlab("Time (s)")+
+  guides(fill = guide_legend(keywidth = 1, keyheight = 1))+
   ylab("log Temperature (C)")+
   scale_colour_manual(name  = "",
                       values=c("Partial iButton"="red","Complete iButton"="black","Thermocouple"="blue"))+
+  scale_x_continuous(breaks = c(0, 1000, 2000))+
   geom_line()
 
 
@@ -1001,8 +1009,9 @@ fig3_plotA<- ggplot(data = reMergeAnalysis)+
                                   family = "Arial",
                                   face="plain"),
          legend.position=c(.8,.9),legend.direction="vertical")+
-  ylab(imax_lab)+
+   ylab(imax_lab)+
   xlab(fuelload_lab)+
+  ylim(0,40)+
   geom_point(aes(x = FuelLoad_g, y =  maxTemp_i))+
   geom_smooth(method="lm",aes(x = FuelLoad_g, y =  maxTemp_i),se=FALSE)
 
@@ -1016,6 +1025,7 @@ fig3_plotB <- ggplot(data = reMergeAnalysis)+
          legend.position=c(.8,.9),legend.direction="vertical")+
   xlab(fuelload_lab)+
   ylab(tmax_lab)+
+  ylim(0,1200)+
   geom_point(aes(x = FuelLoad_g, y = maxTemp_t))+
   geom_smooth(method="lm",aes(x = FuelLoad_g, y = maxTemp_t),se=FALSE)
 
@@ -1030,7 +1040,8 @@ fig3_plotC <- ggplot(data = reMergeAnalysis)+
          legend.position=c(.8,.9),legend.direction="vertical")+
   ylab(intensity_lab)+
   xlab(tsum_lab)+
-   scale_x_continuous(label=scientific_10)+
+  scale_y_continuous(limits=c(0,3000))+
+   scale_x_continuous(breaks=c(0,25000,50000,75000,100000))+
   geom_point(aes(x = sumTemp_t, y = Intensity))+
   geom_smooth(method="lm",aes(x = sumTemp_t, y = Intensity),se=FALSE)
 
@@ -1046,6 +1057,7 @@ fig3_plotD <- ggplot(data = reMergeAnalysis)+
          legend.position=c(.8,.9),legend.direction="vertical")+
   xlab(fuelload_lab)+
   ylab(isum_lab)+
+  scale_y_continuous(limits=c(0,2500))+
   geom_point(aes(x = FuelLoad_g, y = sumTemp_subset_iButton))+
   geom_smooth(method="lm",aes(x = FuelLoad_g, y = sumTemp_subset_iButton),se=FALSE)
 
@@ -1059,6 +1071,7 @@ fig3_plotE <- ggplot(data = reMergeAnalysis)+
          legend.position=c(.8,.9),legend.direction="vertical")+
   xlab(fuelload_lab)+
   ylab(tsum_lab)+
+  scale_y_continuous(limits=c(0,100000))+
   geom_point(aes(x = FuelLoad_g, y = sumTemp_t))+
   geom_smooth(method="lm",aes(x = FuelLoad_g, y = sumTemp_t),se=FALSE)
 
@@ -1072,7 +1085,8 @@ fig3_plotF <- ggplot(data = reMergeAnalysis)+
          legend.position=c(.8,.9),legend.direction="vertical")+
   ylab(intensity_lab)+
   xlab(tsum_lab)+
-  scale_x_continuous(label=scientific_10)+
+  scale_x_continuous()+
+  scale_y_continuous(limits=c(0,3000))+
   geom_point(aes(x = sumTemp_i, y = Intensity))+
   geom_smooth(method="lm",aes(x = sumTemp_i, y = Intensity),se=FALSE)
 
@@ -1101,8 +1115,8 @@ maxTemp_by_FuelLoad_iButton <- lm(Temperature ~ FuelLoad_g,data=c)
 maxTemp_by_FuelLoad_thermocouple <- lm(Temperature ~ FuelLoad_g,data=d)
 compareMethod <- lm(Temperature ~ FuelLoad_g + Method,data=b)
 
+AIC(maxTemp_by_FuelLoad_iButton,maxTemp_by_FuelLoad_thermocouple)
 anova(compareMethod)
-
 
 #maxTemp_by_iMaxXDuration <- lm(maxTemp_t ~ maxTemp_subset_iButton * WS_max,data=reMergeAnalysis)
 
@@ -1115,7 +1129,7 @@ sumTemp_by_FuelLoad <- lm(sumTemp_i ~ FuelLoad_g, data=reMergeAnalysis)
 Intensity_by_FuelLoad <- lm(Intensity ~ FuelLoad_g,data=reMergeAnalysis)
 Intensity_by_iMax <- lm(Intensity ~ maxTemp_subset_iButton,data=reMergeAnalysis)
 Intensity_by_sumTempPeak <- lm(Intensity ~ sumTemp_subset_iButton,data=reMergeAnalysis)
-Intensity_by_sumTemp <- lm(Intensity ~ sumTemp_i,data=reMergeAnalysis)
+Intensity_by_sumTemp <- lm(Intensity ~ sumTemp_t,data=reMergeAnalysis)
 
 maxTemp_by_maxTemp_subset_i <- lm(maxTemp_t ~ maxTemp_subset_iButton,data=reMergeAnalysis)
 maxTemp_by_maxTemp_i <- lm(maxTemp_t ~ maxTemp_i,data=reMergeAnalysis)

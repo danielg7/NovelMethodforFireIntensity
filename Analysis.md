@@ -73,7 +73,7 @@ Raw iButton Data (Data/iButtons)
 
 Raw Thermocouple Data (Data/Thermocouple)
 * `1-October_calibration.csv`
-* `3-October.csv`
+* `3-October_calibration.csv`
 
 # Load ancillary functions
 
@@ -555,6 +555,7 @@ reMergeAnalysis <- merge(maxSub_sub,IntensityCalcs,by.x="PlotID",by.y="Trial_Num
 
 ## iButton Residual ~ Weather Analysis
 
+Calculate residuals of lm
 
 ```r
 testResidsDF_i <- reMergeAnalysis
@@ -568,11 +569,12 @@ testResidsDF_tc$thermocouple_resids <- residuals(maxTemp_by_FuelLoad_thermocoupl
 
 
   
-![plot of chunk unnamed-chunk-4](./Appendix_files/figure-html/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-5](./Appendix_files/figure-html/unnamed-chunk-5.png) 
 
 
 ```r
-summary(lm(thermocouple_resids ~ RH_mean, testResidsDF_tc))
+TCresids_by_RHmean <- lm(thermocouple_resids ~ RH_mean, testResidsDF_tc)
+summary(TCresids_by_RHmean)
 ```
 
 ```
@@ -598,7 +600,8 @@ summary(lm(thermocouple_resids ~ RH_mean, testResidsDF_tc))
 
 
 ```r
-summary(lm(thermocouple_resids ~ WS_mean, testResidsDF_tc))
+TCresids_by_WSmean <- lm(thermocouple_resids ~ WS_mean, testResidsDF_tc)
+summary(TCresids_by_WSmean)
 ```
 
 ```
@@ -624,7 +627,8 @@ summary(lm(thermocouple_resids ~ WS_mean, testResidsDF_tc))
 
 
 ```r
-summary(lm(thermocouple_resids ~ WS_max, testResidsDF_tc))
+TCresids_by_WSmax <- lm(thermocouple_resids ~ WS_max, testResidsDF_tc)
+summary(TCresids_by_WSmax)
 ```
 
 ```
@@ -650,7 +654,8 @@ summary(lm(thermocouple_resids ~ WS_max, testResidsDF_tc))
 
 
 ```r
-summary(lm(thermocouple_resids ~ RH_min, testResidsDF_tc))
+TCresids_by_RHmin <- lm(thermocouple_resids ~ RH_min, testResidsDF_tc)
+summary(TCresids_by_RHmin)
 ```
 
 ```
@@ -686,7 +691,8 @@ summary(lm(thermocouple_resids ~ RH_min, testResidsDF_tc))
 
 
 ```r
-summary(lm(iButton_resids ~ RH_mean, testResidsDF_i))
+IBresids_by_RHmean <- lm(iButton_resids ~ RH_mean, testResidsDF_i)
+summary(IBresids_by_RHmean)
 ```
 
 ```
@@ -719,26 +725,28 @@ summary(lm(iButton_resids ~ RH_mean, testResidsDF_i))
 
 
 ```r
-summary(lm(thermocouple_resids ~ WS_mean, testResidsDF_tc))
+IBresids_by_WSmean <- lm(iButton_resids ~ WS_mean, testResidsDF_i)
+summary(IBresids_by_WSmean)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = thermocouple_resids ~ WS_mean, data = testResidsDF_tc)
+## lm(formula = iButton_resids ~ WS_mean, data = testResidsDF_i)
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
-## -445.4 -192.7   60.7  175.5  395.0 
+##  -8.27  -2.69   0.08   3.13   7.83 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)
-## (Intercept)   -104.1       91.0   -1.14     0.26
-## WS_mean         57.4       43.8    1.31     0.20
+## (Intercept)    1.039      1.400    0.74     0.46
+## WS_mean       -0.546      0.685   -0.80     0.43
 ## 
-## Residual standard error: 251 on 30 degrees of freedom
-## Multiple R-squared:  0.0542,	Adjusted R-squared:  0.0226 
-## F-statistic: 1.72 on 1 and 30 DF,  p-value: 0.2
+## Residual standard error: 3.97 on 32 degrees of freedom
+##   (20 observations deleted due to missingness)
+## Multiple R-squared:  0.0195,	Adjusted R-squared:  -0.0112 
+## F-statistic: 0.635 on 1 and 32 DF,  p-value: 0.431
 ```
 
 
@@ -751,7 +759,8 @@ summary(lm(thermocouple_resids ~ WS_mean, testResidsDF_tc))
 
 
 ```r
-summary(lm(iButton_resids ~ WS_max, testResidsDF_i))
+IBresids_by_WSmax <- lm(iButton_resids ~ WS_max, testResidsDF_i)
+summary(IBresids_by_WSmax)
 ```
 
 ```
@@ -784,7 +793,8 @@ summary(lm(iButton_resids ~ WS_max, testResidsDF_i))
 
 
 ```r
-summary(lm(iButton_resids ~ RH_min, testResidsDF_i))
+IBresids_by_RHmin <- lm(iButton_resids ~ RH_min, testResidsDF_i)
+summary(IBresids_by_RHmin)
 ```
 
 ```
@@ -842,6 +852,20 @@ maxTemp_by_FuelLoad_iButton <- lm(Temperature ~ FuelLoad_g,data=c)
 maxTemp_by_FuelLoad_thermocouple <- lm(Temperature ~ FuelLoad_g,data=d)
 compareMethod <- lm(Temperature ~ FuelLoad_g + Method,data=b)
 
+AIC(maxTemp_by_FuelLoad_iButton,maxTemp_by_FuelLoad_thermocouple)
+```
+
+```
+## Warning: models are not all fitted to the same number of observations
+```
+
+```
+##                                  df   AIC
+## maxTemp_by_FuelLoad_iButton       3 303.6
+## maxTemp_by_FuelLoad_thermocouple  3 450.2
+```
+
+```r
 anova(compareMethod)
 ```
 
@@ -869,7 +893,7 @@ sumTemp_by_FuelLoad <- lm(sumTemp_i ~ FuelLoad_g, data=reMergeAnalysis)
 Intensity_by_FuelLoad <- lm(Intensity ~ FuelLoad_g,data=reMergeAnalysis)
 Intensity_by_iMax <- lm(Intensity ~ maxTemp_subset_iButton,data=reMergeAnalysis)
 Intensity_by_sumTempPeak <- lm(Intensity ~ sumTemp_subset_iButton,data=reMergeAnalysis)
-Intensity_by_sumTemp <- lm(Intensity ~ sumTemp_i,data=reMergeAnalysis)
+Intensity_by_sumTemp <- lm(Intensity ~ sumTemp_t,data=reMergeAnalysis)
 
 maxTemp_by_maxTemp_subset_i <- lm(maxTemp_t ~ maxTemp_subset_iButton,data=reMergeAnalysis)
 maxTemp_by_maxTemp_i <- lm(maxTemp_t ~ maxTemp_i,data=reMergeAnalysis)
@@ -1049,11 +1073,11 @@ maxTemp_bysumTemp <- lm(maxTemp_t ~ sumTemp_i,data=reMergeAnalysis)
   </tr>
   <tr>
     <td style="padding-right: 12px; border: none;">(Intercept)</td>
-    <td style="padding-right: 12px; border: none;">628.44 (171.22)<sup style="vertical-align: 4px;">\*\*\*</sup></td>
+    <td style="padding-right: 12px; border: none;">653.18 (143.37)<sup style="vertical-align: 4px;">\*\*\*</sup></td>
   </tr>
   <tr>
-    <td style="padding-right: 12px; border: none;">sumTemp_i</td>
-    <td style="padding-right: 12px; border: none;">0.02 (0.05)</td>
+    <td style="padding-right: 12px; border: none;">sumTemp_t</td>
+    <td style="padding-right: 12px; border: none;">0.00 (0.00)</td>
   </tr>
   <tr>
     <td style="border-top: 1px solid black;">R<sup style="vertical-align: 4px;">2</sup></td>
@@ -1061,11 +1085,11 @@ maxTemp_bysumTemp <- lm(maxTemp_t ~ sumTemp_i,data=reMergeAnalysis)
   </tr>
   <tr>
     <td style="padding-right: 12px; border: none;">Adj. R<sup style="vertical-align: 4px;">2</sup></td>
-    <td style="padding-right: 12px; border: none;">-0.02</td>
+    <td style="padding-right: 12px; border: none;">-0.03</td>
   </tr>
   <tr>
     <td style="border-bottom: 2px solid black;">Num. obs.</td>
-    <td style="border-bottom: 2px solid black;">52</td>
+    <td style="border-bottom: 2px solid black;">31</td>
   </tr>
   <tr>
     <td style="padding-right: 12px; border: none;" colspan="2"><span style="font-size:0.8em"><sup style="vertical-align: 4px;">\*\*\*</sup>p &lt; 0.001, <sup style="vertical-align: 4px;">\*\*</sup>p &lt; 0.01, <sup style="vertical-align: 4px;">\*</sup>p &lt; 0.05</span></td>

@@ -33,6 +33,8 @@ a <- ddply(a,.(Trial_Number),mutate,Seconds = Time - min(Time))
 a$Seconds <- as.numeric(a$Seconds)
 b$Seconds <- as.numeric(b$Seconds)
 
+a <- subset(a,!is.na(a$Trial_Number))
+b <- subset(b,!is.na(b$Trial_Number))
 
 toPlot <- ggplot(data = a, aes(x = Seconds, y = log(Temperature)))+
   myTheme+
@@ -41,7 +43,7 @@ toPlot <- ggplot(data = a, aes(x = Seconds, y = log(Temperature)))+
             color="red",
             size = 1,
             aes(x = Seconds, y = log(Temperature)))+
-  facet_wrap(~Trial_Number, nrow = 7, scales = "free")
+  facet_wrap(~Trial_Number, nrow = 14, scales = "free")
 
 toPlot
 
@@ -51,3 +53,18 @@ rm(b)
 ````
 
 # Tables
+
+## Table 1
+
+```{r echo=FALSE,results='asis'}
+htmlreg(l=list(TCresids_by_RHmean,TCresids_by_WSmean,TCresids_by_WSmax,TCresids_by_RHmin), doctype = F, html.tag = TRUE, star.symbol="\\*", inline.css = TRUE, head.tag = FALSE, body.tag = FALSE, center = FALSE, single.row = TRUE, caption = "Residual Variance, Thermocouples", custom.model.names = c("TC Residuals ~ mean(Relative Humidity)","TC Residuals ~ mean(Wind Speed)","TC Residuals ~ max(Wind Speed)","TC Residuals ~ min(RH)"))
+```
+
+## Table 2
+
+```{r echo=FALSE,results='asis'}
+
+
+htmlreg(l=list(IBresids_by_RHmean,IBresids_by_WSmean,IBresids_by_WSmax,IBresids_by_RHmin), doctype = F, html.tag = TRUE, star.symbol="\\*", inline.css = TRUE, head.tag = FALSE, body.tag = FALSE, center = FALSE, single.row = TRUE, caption = "Residual Variance, iButtons", custom.model.names = c("iButton Residuals ~ mean(Relative Humidity)","iButton Residuals ~ mean(Wind Speed)","iButton Residuals ~ max(Wind Speed)","iButton Residuals ~ min(RH)"))
+
+```
