@@ -11,7 +11,7 @@ output:
 
 Analysis of Trial Data for
 ======================================================
-_A novel method for assessing fire temperature variability_
+_A NOVEL METHOD FOR QUANTIFYING SAVANNA FIRE INTENSITY UNDER FIELD CONDITIONS_
 ======================================================
 
 Preliminary Work
@@ -456,7 +456,7 @@ weatherAggregate <- ddply(.data = weatherAll_subset,
 
 calibrationData <- merge(calibrationData,weatherAggregate,by = "Trial_Number",all.x = TRUE)
 
-remove(list=c("weatherAll","weatherAll_subset","wx1","wx2","wx3","wx4"))
+#remove(list=c("weatherAll","weatherAll_subset","wx1","wx2","wx3","wx4"))
 ```
 # Process and merge data
 ```{r moreProcessing,echo=TRUE,warning=FALSE}
@@ -927,7 +927,7 @@ design <- readPNG("Images/design.png")
 b <- rasterGrob(design, interpolate=TRUE)
 
 fig1_plotA <- qplot(1:10, 1:10, geom="blank") +
-  ggtitle("A.")+
+  ggtitle("A")+
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",
@@ -947,7 +947,7 @@ plotPicture <- readPNG("Images/example.png")
 g <- rasterGrob(plotPicture, interpolate=TRUE)
 
 fig1_plotB <- qplot(1:10, 1:10, geom="blank") +
-  ggtitle("B.")+
+  ggtitle("B")+
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",
@@ -963,7 +963,7 @@ fig1_plotB <- qplot(1:10, 1:10, geom="blank") +
   annotation_custom(g, xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
 
 fig1_plotC <- ggplot(data = final, aes(x = as.numeric(Seconds), y= log(Temperature), colour = Type))+
-  ggtitle("C.")+
+  ggtitle("C")+
   myTheme+
      theme(plot.title = element_text(size=10,
                                   hjust="0",
@@ -1002,7 +1002,7 @@ scientific_10 <- function(x) {
 }
 
 fig3_plotA<- ggplot(data = reMergeAnalysis)+
-  ggtitle("A.")+
+  ggtitle("A")+
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",
@@ -1016,7 +1016,7 @@ fig3_plotA<- ggplot(data = reMergeAnalysis)+
   geom_smooth(method="lm",aes(x = FuelLoad_g, y =  maxTemp_i),se=FALSE)
 
 fig3_plotB <- ggplot(data = reMergeAnalysis)+
-  ggtitle("B.")+
+  ggtitle("B")+
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",
@@ -1031,7 +1031,7 @@ fig3_plotB <- ggplot(data = reMergeAnalysis)+
 
 
 fig3_plotC <- ggplot(data = reMergeAnalysis)+
-  ggtitle("C.")+
+  ggtitle("C")+
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",
@@ -1041,14 +1041,14 @@ fig3_plotC <- ggplot(data = reMergeAnalysis)+
   ylab(intensity_lab)+
   xlab(tsum_lab)+
   scale_y_continuous(limits=c(0,3000))+
-   scale_x_continuous(breaks=c(0,25000,50000,75000,100000))+
+   scale_x_continuous(breaks=c(0,50000,100000))+
   geom_point(aes(x = sumTemp_t, y = Intensity))+
   geom_smooth(method="lm",aes(x = sumTemp_t, y = Intensity),se=FALSE)
 
 
 
 fig3_plotD <- ggplot(data = reMergeAnalysis)+
-  ggtitle("D.")+
+  ggtitle("D")+
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",
@@ -1062,7 +1062,7 @@ fig3_plotD <- ggplot(data = reMergeAnalysis)+
   geom_smooth(method="lm",aes(x = FuelLoad_g, y = sumTemp_subset_iButton),se=FALSE)
 
 fig3_plotE <- ggplot(data = reMergeAnalysis)+
-  ggtitle("E.")+
+  ggtitle("E")+
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",
@@ -1076,7 +1076,7 @@ fig3_plotE <- ggplot(data = reMergeAnalysis)+
   geom_smooth(method="lm",aes(x = FuelLoad_g, y = sumTemp_t),se=FALSE)
 
 fig3_plotF <- ggplot(data = reMergeAnalysis)+
-  ggtitle("F.")+
+  ggtitle("F")+
   myTheme+
      theme(plot.title = element_text(size=12,
                                   hjust="0",

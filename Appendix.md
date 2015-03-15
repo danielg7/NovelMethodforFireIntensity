@@ -1,6 +1,5 @@
-# Appendix
+# A NOVEL METHOD FOR QUANTIFYING SAVANNA FIRE INTENSITY UNDER FIELD CONDITIONS: Appendix
 Godwin, D.S. and Holdo, R.M  
-March 6, 2015  
 
 
 # Figures
@@ -13,16 +12,18 @@ March 6, 2015
 
 ## Table 1
 
+Residual variance of Tmax ~ Biomass as explained by weather covariates
+
 
 <html>
   <table cellspacing="0" style="border: none;">
     <caption align="bottom" style="margin-top:0.3em;">Residual Variance, Thermocouples</caption>
     <tr>
       <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"></th>
-      <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"><b>TC Residuals ~ mean(Relative Humidity)</b></th>
+      <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"><b>Residuals ~ mean(Relative Humidity)</b></th>
       <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"><b>TC Residuals ~ mean(Wind Speed)</b></th>
-      <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"><b>TC Residuals ~ max(Wind Speed)</b></th>
-      <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"><b>TC Residuals ~ min(RH)</b></th>
+      <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"><b>Residuals ~ max(Wind Speed)</b></th>
+      <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"><b>Residuals ~ min(RH)</b></th>
     </tr>
     <tr>
       <td style="padding-right: 12px; border: none;">(Intercept)</td>
@@ -88,10 +89,11 @@ March 6, 2015
 
 ## Table 2
 
+Residual variance of Imax ~ Biomass as explained by weather covariates
+
 
 <html>
   <table cellspacing="0" style="border: none;">
-    <caption align="bottom" style="margin-top:0.3em;">Residual Variance, iButtons</caption>
     <tr>
       <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"></th>
       <th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"><b>iButton Residuals ~ mean(Relative Humidity)</b></th>

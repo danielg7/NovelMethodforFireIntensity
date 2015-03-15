@@ -1,14 +1,13 @@
 ---
-title: "Appendix"
+title: "A NOVEL METHOD FOR QUANTIFYING SAVANNA FIRE INTENSITY UNDER FIELD CONDITIONS: Appendix"
 author: "Godwin, D.S. and Holdo, R.M"
-date: "March 6, 2015"
-output: 
+output:
   html_document:
-    toc: true
+    keep_md: yes
     theme: united
-    keep_md: true
-
-
+    toc: yes
+  pdf_document:
+    toc: yes
 ---
 
 ```{r, echo = FALSE, include = FALSE, results='hide'}
@@ -56,15 +55,19 @@ rm(b)
 
 ## Table 1
 
+Residual variance of Tmax ~ Biomass as explained by weather covariates
+
 ```{r echo=FALSE,results='asis'}
-htmlreg(l=list(TCresids_by_RHmean,TCresids_by_WSmean,TCresids_by_WSmax,TCresids_by_RHmin), doctype = F, html.tag = TRUE, star.symbol="\\*", inline.css = TRUE, head.tag = FALSE, body.tag = FALSE, center = FALSE, single.row = TRUE, caption = "Residual Variance, Thermocouples", custom.model.names = c("TC Residuals ~ mean(Relative Humidity)","TC Residuals ~ mean(Wind Speed)","TC Residuals ~ max(Wind Speed)","TC Residuals ~ min(RH)"))
+htmlreg(l=list(TCresids_by_RHmean,TCresids_by_WSmean,TCresids_by_WSmax,TCresids_by_RHmin), doctype = F, html.tag = TRUE, star.symbol="\\*", inline.css = TRUE, head.tag = FALSE, body.tag = FALSE, center = FALSE, single.row = TRUE, caption = "Residual Variance, Thermocouples", custom.model.names = c("Residuals ~ mean(Relative Humidity)","TC Residuals ~ mean(Wind Speed)","Residuals ~ max(Wind Speed)","Residuals ~ min(RH)"))
 ```
 
 ## Table 2
 
+Residual variance of Imax ~ Biomass as explained by weather covariates
+
 ```{r echo=FALSE,results='asis'}
 
 
-htmlreg(l=list(IBresids_by_RHmean,IBresids_by_WSmean,IBresids_by_WSmax,IBresids_by_RHmin), doctype = F, html.tag = TRUE, star.symbol="\\*", inline.css = TRUE, head.tag = FALSE, body.tag = FALSE, center = FALSE, single.row = TRUE, caption = "Residual Variance, iButtons", custom.model.names = c("iButton Residuals ~ mean(Relative Humidity)","iButton Residuals ~ mean(Wind Speed)","iButton Residuals ~ max(Wind Speed)","iButton Residuals ~ min(RH)"))
+htmlreg(l=list(IBresids_by_RHmean,IBresids_by_WSmean,IBresids_by_WSmax,IBresids_by_RHmin), doctype = F, html.tag = TRUE, star.symbol="\\*", inline.css = TRUE, head.tag = FALSE, body.tag = FALSE, center = FALSE, single.row = TRUE, caption = "", custom.model.names = c("iButton Residuals ~ mean(Relative Humidity)","iButton Residuals ~ mean(Wind Speed)","iButton Residuals ~ max(Wind Speed)","iButton Residuals ~ min(RH)"))
 
 ```

@@ -11,7 +11,7 @@ output:
 
 Analysis of Trial Data for
 ======================================================
-_A novel method for assessing fire temperature variability_
+_A NOVEL METHOD FOR QUANTIFYING SAVANNA FIRE INTENSITY UNDER FIELD CONDITIONS_
 ======================================================
 
 Preliminary Work
@@ -460,7 +460,7 @@ weatherAggregate <- ddply(.data = weatherAll_subset,
 
 calibrationData <- merge(calibrationData,weatherAggregate,by = "Trial_Number",all.x = TRUE)
 
-remove(list=c("weatherAll","weatherAll_subset","wx1","wx2","wx3","wx4"))
+#remove(list=c("weatherAll","weatherAll_subset","wx1","wx2","wx3","wx4"))
 ```
 # Process and merge data
 
